@@ -112,6 +112,197 @@ mean_wallthickness = df[(df.WALLTHICKNESS != -999) & (df.WALLTHICKNESS).notnull(
 ```
 We then used this variable to replace all -999 and NULL occurrences with the mean wall thickness that was calculated above.
 
+```python
+df['WALLTHICKNESS'] = df['WALLTHICKNESS'].replace(['-999'], mean_wallthickness)
+df['WALLTHICKNESS'] = df['WALLTHICKNESS'].fillna(mean_wallthickness)
+```
+
+It was also very easy for us to execute commands on the fly and visualize our data without having to open tools like Power BI to gain insight and better understanding what we were working with.
+Below, we are using the matplot library for python to create a simple histogram of the distribution of the corrosion depth as well as showing the frequency per depth.
+
+```python
+import matplotlib.pyplot as plt
+data = df['DEPTH']
+df['DEPTH'].plot.hist()
+plt.show()
+```
+
+[FREQ]
+
+After we were done with cleaning the data, we saved the file back onto the storage blob as a csv-file so that we could grab that in AML Studio.
+
+```python
+df.to_csv(output_filename, index=False)
+block_blob_service.create_blob_from_path(
+    container_name,
+    output_filename,
+    output_filename,
+    content_settings=ContentSettings(content_type='text/csv')
+    )
+```
+
+We did not only use Jupyter IPython Notebooks for the data cleaning, we also decided to do some simple preprocessing in Azure ML Studio like editing the metadata for the columns (casting the columns to the appropriate datatypes), selecting specific features to include/exclude, replaced some missing values and cleared some features for being treated as predictive features by mentioning them as fields. This is how the whole process ended up looking:
+
+[waterfall]
+
+## Building the model
+
+When building the model in AML Studio, we decided to split the data into two pieces. A simple way to use one dataset to both train and estimate the performance of the algorithm on unseen data is to split the dataset. You take the dataset, and split it into a training dataset and a test dataset. In our case, 70% of the data went for the training of the model, and 30% of the data went for testing. This split might vary based on the size of the dataset. The important aspect of the splitting, is to have enough data to train the model properly and to test the model properly, which is indeed the main purpose of the splitting. We also checked “randomize split” so the extraction would be random and not from top to bottom. We did not give the split module a seed. If we wanted to repeat the results of a split operation (rectify model variance), we could specify the seed for the random number generator. Otherwise the random seed is set by default to 0. This ensures that the system clock will set the initial seed, and should result in slightly different results each time we perform the split.
+
+We then dragged multiple “train” modules into the canvas as well as multiple score and permutation feature importance modules. The permutation feature importance module computes a set of feature importance scores for the data we provide. It does slight variations and looks at how the model performed based on those changes to see where the impact lies. This gives a good indicator to which features has predictive power. The filter-based feature selection module does much of the same calculations but allows you to specify which feature scoring method you would like to use. The different algorithms it supports are:
+
+* Pearson Correlation
+* Mutual Information
+* Kendall Correlation
+* Spearman Correlation
+* Chi Squared
+* Fisher Score
+* Count Based
+
+We dragged one module with each of the different algorithms to see how they varied from each other.
+
+Some interesting insights we made based on the permutation feature importance module, were the following (ranked descending order):
+
+[permutation]
+
+It shows us that specific manufacturers of the pipes might be exposed to corrosion rather more than others. External coating type also seems to have a correlation to corrosion and some projects might have sloppy work done to them based on the score of the feature importance. This must obviously be taken with a grain of salt as less data means large certainty bound and might be the subject to overfitting, but is interesting to think about.
+
+For the training module, we decided that the column we wanted to predict, was “depth” as this measure implies if there is corrosion or not. We binned the amount of corrosion into categorical values of 0, 1 and 2.
+
+If the amount of corrosion was between 0 and 1 percentage, we set the value to 0 (no corrosion). If the value was between 1 and 40 percentage, we set the value to 1 (some corrosion). If the value was between 40 and 100 percent, we set the value to 2 (severe corrosion).
+
+This allowed us to easily operate with the predictive column as classes. We wrote the following python code in Jupyter IPython notebook to perform the binning:
+
+```python
+bins = [-1, 1, 40, 100]
+df['DEPTH'] = pd.cut(df['DEPTH'], bins, labels = [0, 1, 2])
+```
+
+We proceeded to the decision step of which algorithms to use for our problem. Since we had binned the possible outputs into classes, it was natural for us to proceed with the algorithms inside the multiclass classification umbrella. We used the [Azure Machine Learning Cheat Sheet](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-algorithm-cheat-sheet) to get a better overview of all the algorithms.
+
+The available multi-class classification algorithms in AML Studio:
+
+[MODELS]
+
+We dragged all of the algorithms into the canvas to see which one actually performed the best. 
+This is how the respective flow of the experiment looked like:
+
+[flow]
+
+(note: the filter-based feature selection modules are just connected to the score of the multiclass decision forest algorithm since it performed the best during the first run).
+
+## Evaluating the model
+
+Evaluating the performance of a model is one of the core stages in the data science process. It indicates how successful the scoring (predictions) of a dataset has been by a trained model. We decided to use the evaluate model module for evaluating the results of the classifiers. We dragged both the outputs of two of the scores into the evaluate module to easily assess how they performed by visualizing the results.
+
+I recommend reading [this article on how to evaluate your machine learning model in Azure.](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-evaluate-model-performance)
+
+We mostly followed the same procedures and decided to stick to the confusion matrix as well as the overall accuracy when deciding which algorithm to go with. The evaluate module outputs a confusion matrix showing the number of true positives, false negatives, false positives, and true negatives, as well as ROC, Precision/Recall, and Lift curves for binary classification. This is how our confusion matrix looked like for the first two algorithms (left: Multi-class neural network, right: Multi-class decision jungle).
+
+[matrix1]
+
+You can see that the neural network performed well with an overall accuracy of 90.0% versus 87.7% for the multi-class decision jungle. You can easily see the trend where it shows that it predicted 95.3% correct when there was no corrosion, 66.5% correct when there was some corrosion and 62% correct when there were severe signs of corrosion. By hovering the mouse cursor over a specific cell, you can see the frequency of the predictions.
+
+[smallmatrix]
+
+For the other two algorithms, this is how they respectively ended up (left: multi-class logistic regression, right: multi-class decision forest).
+
+[matrix2]
+
+By assessing the results of the confusion matrix, you can see that the overall accuracy of the multi-class decision forest was slightly better than any other algorithm we tested. Although the overall accuracy was better, we decided to stick with the neural network algorithm since it's generally a better performing algorithm once DNV GL starts to get more and more data into the mix. We were also more satisfied with the outcome of the confusion matrix on the class 2 predictions of the neural network.
+
+Running the model on a 70% (training) and 30% (testing) split with a dataset from Azure Storage blob CSV-file consisting of 60 000 rows (observations) took merely 3 minutes. This included some of the preprocessing stages that were done in the Azure ML Studio itself.
+
+## Optimizing the model
+
+Generally, when working with a neural network algorithm, you have more possibilities of playing around with the parameters of the network. There are no exceptions for this in Azure ML Studio either. By standard, the number of hidden nodes were set to 100 and number of learning iterations were also set to 100. We went for the fully-connected case for the hidden layer specification, which is defined as follows:
+
+* The neural network model has one hidden layer.
+* The output layer is fully connected to the hidden layer, and the hidden layer is fully connected to the input layer.
+* The number of nodes in the input layer is determined by the number of features in the training data.
+* The number of nodes in the hidden layer is determined by the user (with a default value of 100).
+* The number of nodes in the output layer depends on the number of classes.
+
+There are also possibilities for extending the optimization stage even further by leveraging the [NET# neural networks specifications language](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-azure-ml-netsharp-reference-guide) to create custom definition scripts. Since the number of true positives in the dataset was so few (3000 observations out of 60 000 possible), the certainty bound is going to be very wide with less data. We did not want to overfit the model either, so since the standard parameters gave us good enough results, we decided to not write any custom Net# script for this project. 
+
+## Creating a web service
+
+Creating a web service from the machine learning model is trivial when you feel you have gotten a well enough performing model. You can create and expose JSON through a machine learning web service with the click of a button.
+
+This is how our predictive experiment ended up looking:
+
+[webservice]
+
+There was no need to have the web service input located at the top of the pipeline as no data cleaning is needed when the model already has been created, so we decoupled the input and connected it directly into the score model module with the resulting output on the other end.
+
+If we right-click and visualize the scoring model, we can see that 30% (18265 rows) of the dataset has been used for testing purposes.
+
+[score]
+
+## Integrating the model
+
+At this stage, we handed the web service over to DNV GL who had the task of integrating the predictions into their Synergi Pipeline software. This is the diagram of the machine learning structure:
+
+[graph]
+
+IProbabilityOfExternalCorrosion is what makes the predictions and sends the response back to the Synergi Pipeline software for visualization based on the request.
+
+[ilearner]
+
+## Solution
+
+The final output results in visualization on top of a map visual in the Synergi Pipeline software.
+
+[output]
+
+The matrix on the right side tells us the probability of external corrosion on pipelines and the frequency.
+
+[matrix3]
+
+There are some sections on the map that show the variation from very low levels of corrosion over to very high levels of corrosion. This insight can help DNV GL to more accurately assess pipelines without having to dig each pipe up from the ground and assess the integrity of the pipe. Based on rational observations, the decision can be made whether to perform a direct assessment of the pipe or not. This has the potential to lower costs and potentially prevent disasters for happening. This scenario is called predictive maintenance. It is worth mentioning that the machine learning model is biased towards giving more true negative than false positives. This is because you would rather have a higher rate of assessments that turned out to be negative than lower rates of assessments that turned out to be positive where there potentially is more which we are not seeing). This phenomenon is called precision and recall. Precision (also called positive predictive value) is the fraction of retrieved instances that are relevant, while recall (also known as sensitivity) is the fraction of relevant instances that are retrieved.
+
+[relevant]
+
+Picture from the Wikipedia user [Walber.](https://commons.wikimedia.org/wiki/User:Walber)
+
+Read more about precision and recall at [Wikipedia.](https://en.wikipedia.org/wiki/Precision_and_recall)
+
+## Architecture
+
+[archi]
+
+## Conclusion
+### General lessons
+
+We learned that the pandas framework is extremely useful when it comes to looking at the data from different angles, trying to gain insight and to transform the data based on a pre-developed scrubbing strategy. The power of the framework really showed its true colors and amazed each and every one on the team. The Jupyter IPython notebooks are something that we will continue to use when working with multiple people on a project and where there is data cleaning involved. It allowed us to easily share and collaborate on code with the capabilities of using whatever language or framework we wanted to. The notebooks support everything from F#, R, the Cognitive Toolkit (CNTK), as well as many other popular frameworks and samples already pre-populated in the gallery. We also managed to gain some valuable insight about the domain itself and how the different features within the data set correlate with corrosion.
+
+### Opportunities going forward
+
+DNV GL is eager to leverage the power of machine learning and is already planning to incorporate this method into other applications in their ecosystem. More data needs to be collected through customer collaboration and DNV GL will iterate on the current solution definition based on collaboration feedback. DNV GL would also like to build and expand the ML knowledge as it relates to using it for other integrity aspects, as well as publish work and results to industry conferences and publications based on top of a go to market plan.
+All in all, DNV GL and Microsoft are very happy with the collaboration and we are proud of the results we managed to come up with in such a short amount of time.
+
+A big thank you to everyone involved.
+
+### A collection of resources
+
+Read about DNV GL [Wikipedia](https://en.wikipedia.org/wiki/DNV_GL)
+Read about Pandas framework [Pandas](http://pandas.pydata.org/)
+Look at the [code snippets used for this project](https://github.com/readyforchaos/Pandas-transform)
+Look at the [Azure Machine Learning Cheat Sheet](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-algorithm-cheat-sheet)
+Create your own [Jupyter IPython Notebook](https://notebooks.azure.com/)
+Learn [how to evaluate your machine learning model in Azure](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-evaluate-model-performance)
+Read about the [NET# neural networks specifications language](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-azure-ml-netsharp-reference-guide)
+Read more about [Precision and Recall at Wikipedia](https://en.wikipedia.org/wiki/Precision_and_recall)
+Read about [sensitivity and specificity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
+
+
+
+
+
+
+
+
+
 
 
 
