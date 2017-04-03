@@ -286,11 +286,19 @@ A big thank you to everyone involved.
 ### A collection of resources
 
 Read about DNV GL [Wikipedia](https://en.wikipedia.org/wiki/DNV_GL)
+
 Read about Pandas framework [Pandas](http://pandas.pydata.org/)
+
 Look at the [code snippets used for this project](https://github.com/readyforchaos/Pandas-transform)
+
 Look at the [Azure Machine Learning Cheat Sheet](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-algorithm-cheat-sheet)
+
 Create your own [Jupyter IPython Notebook](https://notebooks.azure.com/)
+
 Learn [how to evaluate your machine learning model in Azure](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-evaluate-model-performance)
+
 Read about the [NET# neural networks specifications language](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-azure-ml-netsharp-reference-guide)
+
 Read more about [Precision and Recall at Wikipedia](https://en.wikipedia.org/wiki/Precision_and_recall)
+
 Read about [sensitivity and specificity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
