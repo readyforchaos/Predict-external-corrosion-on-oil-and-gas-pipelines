@@ -8,7 +8,7 @@ DNV GL is an international certification body and classification society with ma
 
 DNV GL is the world's largest classification society with 13,175 vessels and mobile offshore units (MOUs), which represents a global market share of 21%. The organization is also a reference in renewable, alternative and conventional energy. It is the world's largest technical consultancy to onshore and offshore wind, wave, tidal, and solar industries, as well as the global oil & gas industry – 65% of the world’s offshore pipelines are designed and installed to DNV GL’s technical standards. Microsoft worked with DNV GL in the Norwegian headquarters in Høvik from the Oil & Gas silo. 
 
-[VERTICALS]
+![VERTICALS](https://2x4yta-db3pap001.files.1drv.com/y4mHTlV2-j2vmcPuBn15pMYAsiHb_3dnoJlHXyh7Wf2zC5wq7k3arqRS6NNQtIrkjNZEn6J_30DIOLbbpMSQOngwVyaIlqt2PW6w4HfUkTsPUzatH4CudTq4nD5dPk5MeTkeSkPITqg7mHAg0tkEPy8YvjZuc5W5cf855rBbDkFax6Z_olvt3o06gDUSDgxxBN-I1gQsco_u2UdI53V3KbkIg)
 
 Read more about DNV GL at [Wikipedia](https://en.wikipedia.org/wiki/DNV_GL).
 
@@ -28,15 +28,15 @@ Inline Inspection Tool (ILI) pigging in the context of pipelines refers to the p
 
 ### Image of an ILI Pig tool
 
-[PIG]
+![PIG](https://2h49ta-db3pap001.files.1drv.com/y4m1omaZlbckl_tJvVP9gpL-bJRpv18FPyVFoOnS2G1pqB8hZKm5LKZhVbNt7np989EAHTXMVhbvE4SelxGIc1F-PWS3WYJ8x--z98k_ht0w-qE4ICwKazQY9QBkTqxtMTOZDhPGGS7u4CO5D98sc4gIvyQM0rG_Ncjp0dsi01ga3zVr9j523-x_2AhwJYJ0WhjgXrin731zXi2NMO73uJSMA)
 
 ### Heat map showing defects in pipe
 
-[PIPE]
+![PIPE](https://2h48ta-db3pap001.files.1drv.com/y4mge4xJ2sQjw1tHT2aYl2H30mMmym-V6070s6BtkTeEUHy76juW9unrq64qw2gHdcMfmCK2SA9Km39AJA5RfVJrGvztW4-fIaYaiLBDPz1LzBI2y6JVwfJC9LWiXg3_pWlVvGr4keKCv33Xv2PAF79hUcC97Cf1rIHs2IJQdkiJ2vQirFMBrMlsZyYwQDqEs3hUbDb_QMZdOaBwIJ2IMAIRQ)
 
 ### Anatomy of the ILI Pig tool
 
-[ILI]
+![ILI](https://2h40ta-db3pap001.files.1drv.com/y4mbV8jKlPbAa8dC0kVhTrIMo5X5GbII2NwJPhy1TmffBCHSlKRNP_BMJTGTd2jQiP6q_ixU8NN3iH3kvp9FLBasqTVixWuUWS9V39sKCAxERwWPoelCwxhGRzRgWIZqZ88vMd7tWiHaZXxnKRHEv8DByf3IXhQSjjZiDqs2r5uR74G0t2HxuLUjMScCTHzOt9GpBjVABJVWH60vBBbrJMsFw)
 
 ## The objective
 
@@ -92,7 +92,7 @@ We created the appropriate Azure accounts, created a resource group, a storage a
 
 ### Highly motivated team
 
-[TEAM]
+![TEAM](https://2h40ta-db3pap001.files.1drv.com/y4mbV8jKlPbAa8dC0kVhTrIMo5X5GbII2NwJPhy1TmffBCHSlKRNP_BMJTGTd2jQiP6q_ixU8NN3iH3kvp9FLBasqTVixWuUWS9V39sKCAxERwWPoelCwxhGRzRgWIZqZ88vMd7tWiHaZXxnKRHEv8DByf3IXhQSjjZiDqs2r5uR74G0t2HxuLUjMScCTHzOt9GpBjVABJVWH60vBBbrJMsFw)
 
 ## Cleaning the data
 
@@ -127,7 +127,7 @@ df['DEPTH'].plot.hist()
 plt.show()
 ```
 
-[FREQ]
+![FREQ](https://2h40ta-db3pap001.files.1drv.com/y4mbV8jKlPbAa8dC0kVhTrIMo5X5GbII2NwJPhy1TmffBCHSlKRNP_BMJTGTd2jQiP6q_ixU8NN3iH3kvp9FLBasqTVixWuUWS9V39sKCAxERwWPoelCwxhGRzRgWIZqZ88vMd7tWiHaZXxnKRHEv8DByf3IXhQSjjZiDqs2r5uR74G0t2HxuLUjMScCTHzOt9GpBjVABJVWH60vBBbrJMsFw)
 
 After we were done with cleaning the data, we saved the file back onto the storage blob as a csv-file so that we could grab that in AML Studio.
 
@@ -143,7 +143,7 @@ block_blob_service.create_blob_from_path(
 
 We did not only use Jupyter IPython Notebooks for the data cleaning, we also decided to do some simple preprocessing in Azure ML Studio like editing the metadata for the columns (casting the columns to the appropriate datatypes), selecting specific features to include/exclude, replaced some missing values and cleared some features for being treated as predictive features by mentioning them as fields. This is how the whole process ended up looking:
 
-[waterfall]
+![waterfall](https://2x44ta-db3pap001.files.1drv.com/y4mAkEa1-3q0nwNwwCU2ER4Q8iyMFsGU3M9tc1oFfCKljpQvGHh4N_ThWpFKhQdPSaLv8QLQQD5RWs7pvBAna7GHahjtSrICWPc_ERseKCk24IcsjDpRKYhzWwiorzXIHx8eqTqX0w-h_td4wxmMRHHEM4-HE9DP-MVSYzh8PV3ezfFUyFYBwRBjiGioUFkgeBE9U9o_Jmf3fF8rVkImvtlvA)
 
 ## Building the model
 
@@ -163,7 +163,7 @@ We dragged one module with each of the different algorithms to see how they vari
 
 Some interesting insights we made based on the permutation feature importance module, were the following (ranked descending order):
 
-[permutation]
+![permutation](https://2h42ta-db3pap001.files.1drv.com/y4m3nJutSm8Kt40stS1IE7HtVCXsGt1lNP9Ibe6Cfr4UsOExPHAPXKbf0eGeDh0W05qWc631g1L5bAq3lffgaj4FBCllHlMn7Aq4_ehrZVakN-ai2WJfzzNDhQ-wu9U1qE7rV5Zd9sW8cLZ5poL-qZtQcHRGps6640ggb-JPUlQ3KBCbwLKG6D9fiHjD2ONkcd7-SIeNcJgZ6fQkYV7gfxFlQ)
 
 It shows us that specific manufacturers of the pipes might be exposed to corrosion rather more than others. External coating type also seems to have a correlation to corrosion and some projects might have sloppy work done to them based on the score of the feature importance. This must obviously be taken with a grain of salt as less data means large certainty bound and might be the subject to overfitting, but is interesting to think about.
 
@@ -182,12 +182,12 @@ We proceeded to the decision step of which algorithms to use for our problem. Si
 
 The available multi-class classification algorithms in AML Studio:
 
-[MODELS]
+![MODELS](https://2h44ta-db3pap001.files.1drv.com/y4mG9oZ2rS8kBhchN4sOlWh3K_bjZFpLzX8h00EUxrpe6BdYBESjE4cHCNvS1TgsnEZtRul5aFgaXXuuJYb_MJBOQ79aiPwjKTqxoz94Dy94gEntnT3DfHFbetXEo6ENe2nsHZbAwVfYJ3h02_cXz6becwZOMxjJGc9fCo5ECHJmBBE17nPEGOUbPdQKBCCMIu6OLDqMLrHbYkmsFEhq3gnww)
 
 We dragged all of the algorithms into the canvas to see which one actually performed the best. 
 This is how the respective flow of the experiment looked like:
 
-[flow]
+![flow](https://1342ta-db3pap001.files.1drv.com/y4mv4jd_597O3yYro7z7XwlWTfo86LVWj2ZRXfE_eCbs_J48bm8qmoMlPF3AY6irYQZqis5Xw7e_J-sn_PCS1kuKfwmi6thyw648J4Y_6VwB2bvPROvTRzFiTNSeXFsXwMOK1SXnvj3DVZ2cPU1nL63PUik2w1su-qhHZ6c51BIvsFl0FMAaxMPI3rCak7gMLKtdhwotR9dWq319FKFWGkeEQ)
 
 (note: the filter-based feature selection modules are just connected to the score of the multiclass decision forest algorithm since it performed the best during the first run).
 
@@ -199,15 +199,15 @@ I recommend reading [this article on how to evaluate your machine learning model
 
 We mostly followed the same procedures and decided to stick to the confusion matrix as well as the overall accuracy when deciding which algorithm to go with. The evaluate module outputs a confusion matrix showing the number of true positives, false negatives, false positives, and true negatives, as well as ROC, Precision/Recall, and Lift curves for binary classification. This is how our confusion matrix looked like for the first two algorithms (left: Multi-class neural network, right: Multi-class decision jungle).
 
-[matrix1]
+![matrix1](https://2h4zta-db3pap001.files.1drv.com/y4mwawvnEeWNCsooK99R7gislemtZ0TqWAKeMfVx04icnOx8bjFIto8zBS5BINS1PYKtuCRmDKH98BsTNV7xP__cobr6lef1YfPs-B8ZrGb_n9Hs3ZxuHMEy8PVBhNCm0SDxoQRFzA1iTFDNpQADgFDHmDEGiCOO2bVZwuQIRsff0D0cvq9VRFdvV4gK3_jHxf8Nsjkm9Q1UQCJ3O5pdNntOg)
 
 You can see that the neural network performed well with an overall accuracy of 90.0% versus 87.7% for the multi-class decision jungle. You can easily see the trend where it shows that it predicted 95.3% correct when there was no corrosion, 66.5% correct when there was some corrosion and 62% correct when there were severe signs of corrosion. By hovering the mouse cursor over a specific cell, you can see the frequency of the predictions.
 
-[smallmatrix]
+![smallmatrix](https://2x4zta-db3pap001.files.1drv.com/y4mvxkSEoPDdDOJN4fi7rAJh9ayGJsprur5bgrlVYlwnfRXVdfwLH_vDfeXlr4VsdA8_rDaA8-Umb2WYbRV7xnwKhQt5V0vTx2_bdShgeOOX1-zvlnhrNvX1qZbdXv3PPbS3el6Ooj06UZ10-ZF-En-X9lu5qo_TjCL7Bd-voYgM7ktdlL0eXxvFCGU8iRv4if7F_LqHhCzAM5cFhcB2_Mg0w)
 
 For the other two algorithms, this is how they respectively ended up (left: multi-class logistic regression, right: multi-class decision forest).
 
-[matrix2]
+![matrix2](https://2h4yta-db3pap001.files.1drv.com/y4mWKaED89YUR4aoGPvs041Cx49Mc-qg9glzntT4toHpaCeT9u3cbrjesqUarvD9Ih7S3R-7Akx499YNj8UPzJyb63CRXWV1q9mulafa06KXTz-NKfT8Vjuuup_LFFpElkoTXAwZV6tpxGpCRw0nxYUua8FDqvF2SUUKXdSbGyyfq0biuVAQIJWyy6oWfHQiErmg5eXPDOC-LlQjUvAt9iDMA)
 
 By assessing the results of the confusion matrix, you can see that the overall accuracy of the multi-class decision forest was slightly better than any other algorithm we tested. Although the overall accuracy was better, we decided to stick with the neural network algorithm since it's generally a better performing algorithm once DNV GL starts to get more and more data into the mix. We were also more satisfied with the outcome of the confusion matrix on the class 2 predictions of the neural network.
 
@@ -231,37 +231,37 @@ Creating a web service from the machine learning model is trivial when you feel 
 
 This is how our predictive experiment ended up looking:
 
-[webservice]
+![webservice](https://2x43ta-db3pap001.files.1drv.com/y4meZjt09m97Gwrknf6rYBRe6q_XLv2PCGOH2wNGcCZmnUXiODMA-_d9bheEolOnBOC4_3mVIAMHdhGObCWdJJxcMTq1WmxS5DB9k4fD61cOkbYEX5IxDcytGmXm-bfVJfrE9KH3WsnRENegH2ShLPe1xyaAlZVb2cKCIXhihCjHLEPKGuJBuLxxcV92_C_D-wCB3nOpGyHqz2GxM9E3rHdGg)
 
 There was no need to have the web service input located at the top of the pipeline as no data cleaning is needed when the model already has been created, so we decoupled the input and connected it directly into the score model module with the resulting output on the other end.
 
 If we right-click and visualize the scoring model, we can see that 30% (18265 rows) of the dataset has been used for testing purposes.
 
-[score]
+![score](https://2x40ta-db3pap001.files.1drv.com/y4mWUXdTkFC-H3cfwFOkCe1PD4qT4WpMiWGrvlkfRtcyG4YqT0Pvb5KWqWVzoCQKGP-NobHtG4RqFFRAElLL5u56hdvpu3cueFxcESQ-10O7e_cE-W538IbCl3Q1Nns8UhuXyfetTl138yqzHVMOri1ApvO4EBohZr8rbLQyBUwWTHFUz4XhDlO9yIM1oUWClfCCuNTIgz0l6tRcgGJvHbdGg)
 
 ## Integrating the model
 
 At this stage, we handed the web service over to DNV GL who had the task of integrating the predictions into their Synergi Pipeline software. This is the diagram of the machine learning structure:
 
-[graph]
+![graph](https://2h41ta-db3pap001.files.1drv.com/y4mltM99e_nWSpxMn8-nizUBQZoV0Q7auFg4kg5REBUvQ1NmdhmDp5KvLBIb5sVHPWVVb95sgB47ptD7j8fUXHqQxGgYys96ta02XinnLKfgEBUTxsbqsV9UIq4Pdmu-ujKgLuN2dW88hQHrYgCYrysQ4UTT-cFLBs1jX9Km62CEZ4tG8G1FR65Q5fH03UmYO5SRURxq9WcKH_UqDCxkfHqqw)
 
 IProbabilityOfExternalCorrosion is what makes the predictions and sends the response back to the Synergi Pipeline software for visualization based on the request.
 
-[ilearner]
+![ilearner](https://1348ta-db3pap001.files.1drv.com/y4mbh9PBgm4ueAZlkKF8166xh0WVOjo0dF8gIgoVfCmSttg-klV_L6FzqJETSdNvZiqb8J7EIhnKJvoQg_GvBpp9_HT7rnroG-hGUrKBamH_9uqTHXT7jzbGNpQUYXAmhiET1Lzxc_6hd9DWOT_7zd_pfjspcFiJ82yYp5wqDqsW6rtxrgw5jn0lnrmjc38muAhntc6HOQigReiJH_8fCOzhw)
 
 ## Solution
 
 The final output results in visualization on top of a map visual in the Synergi Pipeline software.
 
-[output]
+![output](https://2h43ta-db3pap001.files.1drv.com/y4m2Wy9FMe_-y0Vu_dQJ0cgwBXlbDP3D9gALsEh_H2dSkAzJI7FqhEk2EO-d0PF36VasRSYYJW-cUB9PQvOjABEidwDkjEDwN3cDM946b4DmAemoCoWxyVFV1Zgvmvh14Lg2Em2KW7aREPj0A_fnzdRaFBvdLh88ZvHpUIsX3PwPDe4zXitiuijNf5GUVnj_S0lHDyPhTErHjcjlMFr9TZ8Eg)
 
 The matrix on the right side tells us the probability of external corrosion on pipelines and the frequency.
 
-[matrix3]
+![matrix3](https://2h45ta-db3pap001.files.1drv.com/y4m8PVk1u0n9Qnt_LgOGVtfp6f_QxUvT7wlGUmAQh8EUYd0BS0l11mp_k7HBz4WtwQW16a6ndxiVJr_M3FMFLT-mUuK2MV72DaXtMJLMjacRf77g-ceIgsmwqmAslMECWJM11MjAD3nRLliGOEJhG379BQTGed6Y9Ct0c8hpGMcwtcZl6nxCKb3iXJMTYTgJTf-ZA3ixYGo8fTxt4Zw5PvzSw)
 
 There are some sections on the map that show the variation from very low levels of corrosion over to very high levels of corrosion. This insight can help DNV GL to more accurately assess pipelines without having to dig each pipe up from the ground and assess the integrity of the pipe. Based on rational observations, the decision can be made whether to perform a direct assessment of the pipe or not. This has the potential to lower costs and potentially prevent disasters for happening. This scenario is called predictive maintenance. It is worth mentioning that the machine learning model is biased towards giving more true negative than false positives. This is because you would rather have a higher rate of assessments that turned out to be negative than lower rates of assessments that turned out to be positive where there potentially is more which we are not seeing). This phenomenon is called precision and recall. Precision (also called positive predictive value) is the fraction of retrieved instances that are relevant, while recall (also known as sensitivity) is the fraction of relevant instances that are retrieved.
 
-[relevant]
+![relevant](https://2h45ta-db3pap001.files.1drv.com/y4m8PVk1u0n9Qnt_LgOGVtfp6f_QxUvT7wlGUmAQh8EUYd0BS0l11mp_k7HBz4WtwQW16a6ndxiVJr_M3FMFLT-mUuK2MV72DaXtMJLMjacRf77g-ceIgsmwqmAslMECWJM11MjAD3nRLliGOEJhG379BQTGed6Y9Ct0c8hpGMcwtcZl6nxCKb3iXJMTYTgJTf-ZA3ixYGo8fTxt4Zw5PvzSw)
 
 Picture from the Wikipedia user [Walber.](https://commons.wikimedia.org/wiki/User:Walber)
 
@@ -269,7 +269,7 @@ Read more about precision and recall at [Wikipedia.](https://en.wikipedia.org/wi
 
 ## Architecture
 
-[archi]
+![archi](https://1349ta-db3pap001.files.1drv.com/y4mF447kAKjPubi_RAcMMP926dJvKANHthyhRxAot_f1G3Oq7QRMwRqorKecVSkwuTbKap6LhcY2261otKAmUrfYBFuA_TbMymAwap2Ta4pezWGoWe54CgelxtQmDq_hQO-pb2hDTpE59VBgvQs1krMYsEjgmq7cxg7Sdsy0J5SnPZu_KD7dYWS3hpn8Kf8MFf0vs-zXtHbnRIGPSRTg_7CkQ)
 
 ## Conclusion
 ### General lessons
@@ -294,17 +294,3 @@ Learn [how to evaluate your machine learning model in Azure](https://docs.micros
 Read about the [NET# neural networks specifications language](https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-azure-ml-netsharp-reference-guide)
 Read more about [Precision and Recall at Wikipedia](https://en.wikipedia.org/wiki/Precision_and_recall)
 Read about [sensitivity and specificity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
