@@ -1,19 +1,3 @@
----
-layout: post
-title:  "Predict external corrosion on oil and gas pipelines with Machine Learning"
-author: "Anders Gill"
-author-link: "#"
-#author-image: "{{ site.baseurl }}/images/authors/andersgill.jpg"
-date:   2017-01-23
-categories: [Machine Learning]
-color: "blue"
-#image: "{{ site.baseurl }}/images/imagename.png" #should be ~350px tall
-excerpt: Microsoft sat down with DNV GL in their headquarters to execute on a five-day-hackathon where the focus was to predict external corrosion on pipelines using Machine Learning.  
-language: English
-verticals: [Oil and gas]
----
-
-
 # DNV GL Machine Learning – Predict external corrosion on oil and gas pipelines
 
 Microsoft sat down with DNV GL in their headquarters to execute on a five-day-hackathon where the focus was to predict external corrosion on pipelines using Machine Learning.
@@ -24,7 +8,7 @@ DNV GL is an international certification body and classification society with ma
 
 DNV GL is the world's largest classification society with 13,175 vessels and mobile offshore units (MOUs), which represents a global market share of 21%. The organization is also a reference in renewable, alternative and conventional energy. It is the world's largest technical consultancy to onshore and offshore wind, wave, tidal, and solar industries, as well as the global oil & gas industry – 65% of the world’s offshore pipelines are designed and installed to DNV GL’s technical standards. Microsoft worked with DNV GL in the Norwegian headquarters in Høvik from the Oil & Gas silo. 
 
-![VERTICALS]({{ site.baseurl }}/images/2017-01-23-DNV-GL/verticals.png)
+![VERTICALS](images/2017-01-23-DNV-GL/verticals.png)
 
 Read more about DNV GL at [Wikipedia](https://en.wikipedia.org/wiki/DNV_GL).
 
@@ -44,15 +28,15 @@ Inline Inspection Tool (ILI) pigging in the context of pipelines refers to the p
 
 ### Image of an ILI Pig tool
 
-![PIG]({{ site.baseurl }}/images/2017-01-23-DNV-GL/pig.png)
+![PIG](images/2017-01-23-DNV-GL/pig.png)
 
 ### Heat map showing defects in pipe
 
-![PIPE]({{ site.baseurl }}/images/2017-01-23-DNV-GL/pipe.jpg)
+![PIPE](images/2017-01-23-DNV-GL/pipe.jpg)
 
 ### Anatomy of the ILI Pig tool
 
-![ILI]({{ site.baseurl }}/images/2017-01-23-DNV-GL/ILI.jpg)
+![ILI](images/2017-01-23-DNV-GL/ILI.jpg)
 
 ## The objective
 
@@ -108,7 +92,7 @@ We created the appropriate Azure accounts, created a resource group, a storage a
 
 ### Highly motivated team
 
-![TEAM]({{ site.baseurl }}/images/2017-01-23-DNV-GL/team.png)
+![TEAM](images/2017-01-23-DNV-GL/team.png)
 
 ## Cleaning the data
 
@@ -143,7 +127,7 @@ df['DEPTH'].plot.hist()
 plt.show()
 ```
 
-![FREQUENCY]({{ site.baseurl }}/images/2017-01-23-DNV-GL/freq.png)
+![FREQUENCY](images/2017-01-23-DNV-GL/freq.png)
 
 After we were done with cleaning the data, we saved the file back onto the storage blob as a csv-file so that we could grab that in AML Studio.
 
@@ -159,7 +143,7 @@ block_blob_service.create_blob_from_path(
 
 We did not only use Jupyter IPython Notebooks for the data cleaning, we also decided to do some simple preprocessing in Azure ML Studio like editing the metadata for the columns (casting the columns to the appropriate datatypes), selecting specific features to include/exclude, replaced some missing values and cleared some features for being treated as predictive features by mentioning them as fields. This is how the whole process ended up looking:
 
-![WATERFALL]({{ site.baseurl }}/images/2017-01-23-DNV-GL/waterfall.png)
+![WATERFALL](images/2017-01-23-DNV-GL/waterfall.png)
 
 ## Building the model
 
@@ -179,7 +163,7 @@ We dragged one module with each of the different algorithms to see how they vari
 
 Some interesting insights we made based on the permutation feature importance module, were the following (ranked descending order):
 
-![PERMUTATION]({{ site.baseurl }}/images/2017-01-23-DNV-GL/permutation.png)
+![PERMUTATION](images/2017-01-23-DNV-GL/permutation.png)
 
 It shows us that specific manufacturers of the pipes might be exposed to corrosion rather more than others. External coating type also seems to have a correlation to corrosion and some projects might have sloppy work done to them based on the score of the feature importance. This must obviously be taken with a grain of salt as less data means large certainty bound and might be the subject to overfitting, but is interesting to think about.
 
@@ -198,12 +182,12 @@ We proceeded to the decision step of which algorithms to use for our problem. Si
 
 The available multi-class classification algorithms in AML Studio:
 
-![MODELS]({{ site.baseurl }}/images/2017-01-23-DNV-GL/models.png)
+![MODELS](images/2017-01-23-DNV-GL/models.png)
 
 We dragged all of the algorithms into the canvas to see which one actually performed the best. 
 This is how the respective flow of the experiment looked like:
 
-![FLOW]({{ site.baseurl }}/images/2017-01-23-DNV-GL/flow.png)
+![FLOW](images/2017-01-23-DNV-GL/flow.png)
 
 (note: the filter-based feature selection modules are just connected to the score of the multiclass decision forest algorithm since it performed the best during the first run).
 
@@ -215,15 +199,15 @@ I recommend reading [this article on how to evaluate your machine learning model
 
 We mostly followed the same procedures and decided to stick to the confusion matrix as well as the overall accuracy when deciding which algorithm to go with. The evaluate module outputs a confusion matrix showing the number of true positives, false negatives, false positives, and true negatives, as well as ROC, Precision/Recall, and Lift curves for binary classification. This is how our confusion matrix looked like for the first two algorithms (left: Multi-class neural network, right: Multi-class decision jungle).
 
-![MATRIX1]({{ site.baseurl }}/images/2017-01-23-DNV-GL/matrix1.png)
+![MATRIX1](images/2017-01-23-DNV-GL/matrix1.png)
 
 You can see that the neural network performed well with an overall accuracy of 90.0% versus 87.7% for the multi-class decision jungle. You can easily see the trend where it shows that it predicted 95.3% correct when there was no corrosion, 66.5% correct when there was some corrosion and 62% correct when there were severe signs of corrosion. By hovering the mouse cursor over a specific cell, you can see the frequency of the predictions.
 
-![SMALLMATRIX]({{ site.baseurl }}/images/2017-01-23-DNV-GL/smallmatrix.png)
+![SMALLMATRIX](images/2017-01-23-DNV-GL/smallmatrix.png)
 
 For the other two algorithms, this is how they respectively ended up (left: multi-class logistic regression, right: multi-class decision forest).
 
-![MATRIX2]({{ site.baseurl }}/images/2017-01-23-DNV-GL/matrix2.png)
+![MATRIX2](images/2017-01-23-DNV-GL/matrix2.png)
 
 By assessing the results of the confusion matrix, you can see that the overall accuracy of the multi-class decision forest was slightly better than any other algorithm we tested. Although the overall accuracy was better, we decided to stick with the neural network algorithm since it's generally a better performing algorithm once DNV GL starts to get more and more data into the mix. We were also more satisfied with the outcome of the confusion matrix on the class 2 predictions of the neural network.
 
@@ -247,37 +231,37 @@ Creating a web service from the machine learning model is trivial when you feel 
 
 This is how our predictive experiment ended up looking:
 
-![WEBSERVICE]({{ site.baseurl }}/images/2017-01-23-DNV-GL/webservice.png)
+![WEBSERVICE](images/2017-01-23-DNV-GL/webservice.png)
 
 There was no need to have the web service input located at the top of the pipeline as no data cleaning is needed when the model already has been created, so we decoupled the input and connected it directly into the score model module with the resulting output on the other end.
 
 If we right-click and visualize the scoring model, we can see that 30% (18265 rows) of the dataset has been used for testing purposes.
 
-![SCORE]({{ site.baseurl }}/images/2017-01-23-DNV-GL/score.png)
+![SCORE](images/2017-01-23-DNV-GL/score.png)
 
 ## Integrating the model
 
 At this stage, we handed the web service over to DNV GL who had the task of integrating the predictions into their Synergi Pipeline software. This is the diagram of the machine learning structure:
 
-![GRAPH]({{ site.baseurl }}/images/2017-01-23-DNV-GL/graph.png)
+![GRAPH](images/2017-01-23-DNV-GL/graph.png)
 
 IProbabilityOfExternalCorrosion is what makes the predictions and sends the response back to the Synergi Pipeline software for visualization based on the request.
 
-![ILEARNER]({{ site.baseurl }}/images/2017-01-23-DNV-GL/ilearner.png)
+![ILEARNER](images/2017-01-23-DNV-GL/ilearner.png)
 
 ## Solution
 
 The final output results in visualization on top of a map visual in the Synergi Pipeline software.
 
-![OUTPUT]({{ site.baseurl }}/images/2017-01-23-DNV-GL/output.png)
+![OUTPUT](images/2017-01-23-DNV-GL/output.png)
 
 The matrix on the right side tells us the probability of external corrosion on pipelines and the frequency.
 
-![MATRIX3]({{ site.baseurl }}/images/2017-01-23-DNV-GL/matrix3.png)
+![MATRIX3](images/2017-01-23-DNV-GL/matrix3.png)
 
 There are some sections on the map that show the variation from very low levels of corrosion over to very high levels of corrosion. This insight can help DNV GL to more accurately assess pipelines without having to dig each pipe up from the ground and assess the integrity of the pipe. Based on rational observations, the decision can be made whether to perform a direct assessment of the pipe or not. This has the potential to lower costs and potentially prevent disasters for happening. This scenario is called predictive maintenance. It is worth mentioning that the machine learning model is biased towards giving more true negative than false positives. This is because you would rather have a higher rate of assessments that turned out to be negative than lower rates of assessments that turned out to be positive where there potentially is more which we are not seeing). This phenomenon is called precision and recall. Precision (also called positive predictive value) is the fraction of retrieved instances that are relevant, while recall (also known as sensitivity) is the fraction of relevant instances that are retrieved.
 
-![PRECISION]({{ site.baseurl }}/images/2017-01-23-DNV-GL/precision.png)
+![PRECISION](images/2017-01-23-DNV-GL/precision.png)
 
 Picture from the Wikipedia user [Walber.](https://commons.wikimedia.org/wiki/User:Walber)
 
@@ -285,7 +269,7 @@ Read more about precision and recall at [Wikipedia.](https://en.wikipedia.org/wi
 
 ## Architecture
 
-![ARCHITECTURE]({{ site.baseurl }}/images/2017-01-23-DNV-GL/archi.png)
+![ARCHITECTURE](images/2017-01-23-DNV-GL/archi.png)
 
 ## Conclusion
 ### General lessons
